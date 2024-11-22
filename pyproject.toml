@@ -1,26 +1,233 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core>=3.4"]
+build-backend = "flit_core.buildapi"
 
 [project]
-name = "django_commons_playground"
-version = "1.1.0"
+name = "django-commons-playground"
 authors = [
-  { name="Tim Schilling", email="schillingt@better-simple.com" },
+    {'name' = 'Tim Schilling', 'email' = 'schillingt@better-simple.com'},
 ]
-description = "A place to test things out"
 readme = "README.md"
-requires-python = ">=3.11"
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
     "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
 ]
-keywords = [
-    "django",
-    "django commons",
+dynamic = ["version", "description"]
+license = {"file" = "LICENSE.md"}
+dependencies = [
+    'Django>=4.2',
 ]
 
+
+[project.optional-dependencies]
+dev = [
+   'typer~=0.12',
+   'freezegun~=1.5',
+   'pytest-django~=4.9',
+   'pytest-mock~=3.14',
+   'coverage~=7.6',
+   'pre-commit~=4.0',
+   'ruff~=0.6',
+   'sphinx~=7.1',
+   'sphinx-rtd-theme~=2.0',
+   'm2r2==0.3.3.post2',
+   'mistune<2.0.0',
+   'flit~=3.9',
+   'keyring~=25.4',
+   'ambient-package-update',
+]
+
+[tool.flit.module]
+name = "django_commons_playground"
+
 [project.urls]
-Homepage = "https://github.com/django-commons/django-commons-playground"
-Issues = "https://github.com/django-commons/django-commons-playground/issues"
+'Homepage' = 'https://github.com/django-commons/django-commons-playground/'
+'Documentation' = 'https://django-commons-playground.readthedocs.io/en/latest/index.html'
+'Maintained by' = 'https://www.better-simple.com'
+'Bugtracker' = 'https://github.com/django-commons/django-commons-playground/issues'
+'Changelog' = 'https://django-commons-playground.readthedocs.io/en/latest/features/changelog.html'
+
+[tool.ruff]
+lint.select = [
+    "E",       # pycodestyle errors
+    "W",       # pycodestyle warnings
+    "F",       # Pyflakes
+    "N",       # pep8-naming
+    "I",       # isort
+    "B",       # flake8-bugbear
+    "A",       # flake8-builtins
+    "DTZ",     # flake8-datetimez
+    "DJ",      # flake8-django
+    "TD",      # flake8-to-do
+    "RUF",     # Ruff-specific rules
+    "YTT",     # Avoid non-future-prove usages of "sys"
+    "C4",      # Checks for unnecessary conversions
+    "PIE",     # Bunch of useful rules
+    "INT",     # Validates your gettext translation strings
+    "PERF",    # PerfLint
+    "PGH",     # No all-purpose "# noqa" and eval validation
+    "PL",      # PyLint
+    "LOG",     # flake8-logging
+    "TID",     # flake8-tidy-imports
+    "PLR2004", # Magic numbers
+    "BLE",     # Checks for except clauses that catch all exceptions
+    "ANN401",  # Checks that function arguments are annotated with a more specific type than Any
+    "TRY",     # Clean try/except
+    "ERA",     # Commented out code
+]
+lint.ignore = [
+]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+lint.fixable = [
+    "E",       # pycodestyle errors
+    "W",       # pycodestyle warnings
+    "F",       # Pyflakes
+    "N",       # pep8-naming
+    "I",       # isort
+    "B",       # flake8-bugbear
+    "A",       # flake8-builtins
+    "DTZ",     # flake8-datetimez
+    "DJ",      # flake8-django
+    "TD",      # flake8-to-do
+    "RUF",     # Ruff-specific rules
+    "YTT",     # Avoid non-future-prove usages of "sys"
+    "C4",      # Checks for unnecessary conversions
+    "PIE",     # Bunch of useful rules
+    "INT",     # Validates your gettext translation strings
+    "PERF",    # PerfLint
+    "PGH",     # No all-purpose "# noqa" and eval validation
+    "PL",      # PyLint
+    "LOG",     # flake8-logging
+    "TID",     # flake8-tidy-imports
+    "PLR2004", # Magic numbers
+    "BLE",     # Checks for except clauses that catch all exceptions
+    "ANN401",  # Checks that function arguments are annotated with a more specific type than Any
+    "TRY",     # Clean try/except
+    "ERA",     # Commented out code
+]
+lint.unfixable = []
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "*/migrations/*"
+]
+
+# Same as Black.
+line-length = 120
+
+# Allow unused variables when underscore-prefixed.
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.12
+target-version = "py312"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.tox]
+legacy_tox_ini = """
+[testenv]
+# Django deprecation overview: https://www.djangoproject.com/download/
+deps =
+    django42: Django==4.2.*
+    django50: Django==5.0.*
+    django51: Django==5.1.*
+extras = dev,
+commands =
+    coverage run -m pytest --ds settings tests
+
+[gh-actions]
+python =
+    3.9: py39
+    3.10: py310
+    3.11: py311
+    3.12: py312
+    3.13: py313
+"""
+
+[tool.pytest.ini_options]
+python_files = [
+    "tests.py",
+    "test_*.py",
+    "*_tests.py",
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source = [
+    "django-commons-playground",
+    "tests",
+]
+omit = [
+  "setup.py",
+  "*_test.py",
+  "tests.py",
+  "testapp/*",
+  "tests/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+    # Don't check type hinting imports
+    "if typing.TYPE_CHECKING:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.coverage.path]
+source = [
+    "django-commons-playground",
+    ".tox/**/site-packages",
+]
