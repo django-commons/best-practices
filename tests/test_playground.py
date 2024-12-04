@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.django_commons_playground import playground
+from src.django_commons_best_practices import playground
 
 
 class TestPlayground(TestCase):
