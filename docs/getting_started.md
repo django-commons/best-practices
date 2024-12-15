@@ -5,7 +5,7 @@ after [installing the project](installation.md), you can use the functionality
 as such:
 
 ```python
-from django_commons_playground import playground
+from django_commons_best_practices import playground
 
 print(playground.seesaw())
 print(playground.seesaw())
