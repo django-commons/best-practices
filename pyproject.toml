@@ -22,5 +22,5 @@ keywords = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/django-commons/django-commons-playground"
-Issues = "https://github.com/django-commons/django-commons-playground/issues"
+Homepage = "https://github.com/django-commons/best-practices"
+Issues = "https://github.com/django-commons/best-practices/issues"
