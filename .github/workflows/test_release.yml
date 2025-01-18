@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       iteration:
-        description: 'A unique iteration for the run. The tag will be prefixed with test.yyyymmdd.'
+        description: 'A unique iteration for the run. The tag will be suffixed with .devyyyymmdd<iteration>'
         type: string
         required: true
         default: "0"
@@ -35,6 +35,8 @@ jobs:
 
   build:
     name: Build distribution 📦
+    needs:
+    - create-dev-version
     runs-on: ubuntu-latest
 
     steps:
