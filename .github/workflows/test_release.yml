@@ -19,12 +19,27 @@ env:
   DEV_VERSION_ENV_KEY: BEST_PRACTICES_VERSION_DEV
 
 jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the branch is main
+        run: |
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "This workflow can only run on the main branch. Exiting."
+            exit 0
+          fi
+          echo "Branch is main, proceeding with the job."
+
+      - name: Continue with the action
+        run: echo "Performing the main branch actions."
 
   create-dev-version:
     # Generate the dev version suffix based on the current date.
     # Tag name:
     #   <version>.dev<yyyymmdd><iteration>
     name: Create dev version string
+    needs:
+    - check-branch
     runs-on: ubuntu-latest
     outputs:
       dev_version: ${{ steps.output-dev-version.outputs.dev_version }}
