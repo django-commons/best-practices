@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Check if the branch is main for workflow dispatches
         run: |
-          if ["${{ github.event_name }}" == "workflow_dispatch"] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
             echo "This workflow can only run on the main branch. Exiting."
             exit 0
           fi
