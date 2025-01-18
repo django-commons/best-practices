@@ -48,7 +48,7 @@ jobs:
         # Don't output a dev version if the push was for a tag.
         run: |
           if [ ${{ startsWith(github.ref, 'refs/tags') }} ]; then
-            echo "dev_version=''" >> "$GITHUB_OUTPUT"
+            echo "dev_version=" >> "$GITHUB_OUTPUT"
           else
             echo "dev_version=${{ env.suffix }}${{ env.iteration }}" >> "$GITHUB_OUTPUT"
           fi
