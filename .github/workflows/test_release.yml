@@ -13,7 +13,7 @@ env:
   # Change these for your project's URLs
   PYPI_TEST_URL: https://test.pypi.org/p/django-commons-best-practices
   # The environment key that overrides the version number
-  DEV_VERSION_ENV_KEY: BEST_PRACTICES_VERSION
+  DEV_VERSION_ENV_KEY: BEST_PRACTICES_VERSION_DEV
 
 jobs:
 
