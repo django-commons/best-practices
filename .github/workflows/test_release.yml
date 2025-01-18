@@ -8,6 +8,9 @@ on:
         type: string
         required: true
         default: "0"
+  schedule:
+    # Run the second day of every month.
+    - cron: "12 3 2 * *"
 
 env:
   # Change these for your project's URLs
@@ -28,10 +31,19 @@ jobs:
     steps:
       - name: Set date suffix
         id: set-date
-        run: echo "suffix=dev$(date +%Y%m%d)${{ github.event.inputs.iteration }}" >> $GITHUB_ENV
+        run: echo "suffix=dev$(date +%Y%m%d)" >> $GITHUB_ENV
+      - name: Determine Iteration Value
+        id: set-iteration
+        # If the action is running on a schedule, default iteration to 0
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "iteration=${{ github.event.inputs.iteration }}" >> $GITHUB_ENV
+          else
+            echo "iteration=0" >> $GITHUB_ENV
+          fi
       - name: Output dev version
         id: output-dev-version
-        run: echo "dev_version=${{ env.suffix }}" >> "$GITHUB_OUTPUT"
+        run: echo "dev_version=${{ env.suffix }}${{ env.iteration }}" >> "$GITHUB_OUTPUT"
 
   build:
     name: Build distribution 📦
