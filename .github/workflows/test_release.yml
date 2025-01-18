@@ -11,6 +11,9 @@ on:
   schedule:
     # Run the second day of every month.
     - cron: "12 3 2 * *"
+  push:
+    tags:
+      - '*'
 
 env:
   # Change these for your project's URLs
@@ -22,9 +25,9 @@ jobs:
   check-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if the branch is main
+      - name: Check if the branch is main for workflow dispatches
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+          if ["${{ github.event_name }}" == "workflow_dispatch"] && [ "${{ github.ref }}" != "refs/heads/main" ]; then
             echo "This workflow can only run on the main branch. Exiting."
             exit 0
           fi
@@ -58,7 +61,13 @@ jobs:
           fi
       - name: Output dev version
         id: output-dev-version
-        run: echo "dev_version=${{ env.suffix }}${{ env.iteration }}" >> "$GITHUB_OUTPUT"
+        # Don't output a dev version if the push was for a tag.
+        run: |
+          if [ ${{ startsWith(github.ref, 'refs/tags') }} ]; then
+            echo "dev_version=''" >> "$GITHUB_OUTPUT"
+          else
+            echo "dev_version=${{ env.suffix }}${{ env.iteration }}" >> "$GITHUB_OUTPUT"
+          fi
 
   build:
     name: Build distribution 📦
