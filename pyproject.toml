@@ -4,12 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-commons-best-practices"
-version = "1.1.0"
+dynamic = ["version", "readme"]
 authors = [
   { name="Tim Schilling", email="schillingt@better-simple.com" },
 ]
 description = "A place to test things out"
-readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -20,6 +19,10 @@ keywords = [
     "django",
     "django commons",
 ]
+
+[tool.setuptools.dynamic]
+version = {attr = "django_commons_best_practices.__version__"}
+readme = {file = ["README.md"]}
 
 [project.urls]
 Homepage = "https://github.com/django-commons/best-practices"

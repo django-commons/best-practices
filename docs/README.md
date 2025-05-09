@@ -8,6 +8,7 @@ and organized docs are the best docs.
 ## Table of Contents
 
 - [Installation](installation.md)
+- [Releasing packages](releases.md)
 - [Getting Started](getting_started.md)
 - [Contributing](contributing.md)
 - [Code of Conduct](../CODE_OF_CONDUCT.md)
