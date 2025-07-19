@@ -12,13 +12,13 @@ description = "A place to test things out"
 requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 keywords = [
     "django",
     "django commons",
 ]
+license = "MIT"
 
 [tool.setuptools.dynamic]
 version = {attr = "django_commons_best_practices.__version__"}
