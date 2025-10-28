@@ -73,7 +73,7 @@ jobs:
         DEV_VERSION: ${{needs.create-dev-version.outputs.dev_version}}
       run: ${{ env.DEV_VERSION_ENV_KEY }}="${{ env.DEV_VERSION }}" python3 -m build
     - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: python-package-distributions
         path: dist/
