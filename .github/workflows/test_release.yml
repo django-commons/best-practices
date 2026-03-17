@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6.0.1
+    - uses: actions/checkout@v6.0.2
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
@@ -73,7 +73,7 @@ jobs:
         DEV_VERSION: ${{needs.create-dev-version.outputs.dev_version}}
       run: ${{ env.DEV_VERSION_ENV_KEY }}="${{ env.DEV_VERSION }}" python3 -m build
     - name: Store the distribution packages
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: python-package-distributions
         path: dist/
