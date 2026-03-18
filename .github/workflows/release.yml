@@ -19,6 +19,7 @@ jobs:
 
   build:
     name: Build distribution 📦
+    if: github.repository == 'django-commons/best-practices'
     runs-on: ubuntu-latest
 
     steps:
