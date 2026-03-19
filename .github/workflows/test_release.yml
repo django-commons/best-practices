@@ -27,6 +27,7 @@ jobs:
     # Tag name:
     #   <version>.dev<yyyymmdd><iteration>
     name: Create dev version string
+    # Prevent this workflow from running on forks
     if: github.repository == 'django-commons/best-practices'
     runs-on: ubuntu-latest
     outputs:
