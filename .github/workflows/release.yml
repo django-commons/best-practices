@@ -19,6 +19,8 @@ jobs:
 
   build:
     name: Build distribution 📦
+    # Prevent this workflow from running on forks
+    if: github.repository == 'django-commons/best-practices'
     runs-on: ubuntu-latest
 
     steps:
