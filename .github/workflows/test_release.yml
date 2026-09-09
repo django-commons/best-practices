@@ -21,6 +21,8 @@ env:
   # The environment key that overrides the version number
   DEV_VERSION_ENV_KEY: BEST_PRACTICES_VERSION_DEV
 
+permissions: {}
+
 jobs:
   create-dev-version:
     # Generate the dev version suffix based on the current date.
@@ -30,6 +32,7 @@ jobs:
     # Prevent this workflow from running on forks
     if: github.repository == 'django-commons/best-practices'
     runs-on: ubuntu-latest
+    permissions: {}
     outputs:
       dev_version: ${{ steps.output-dev-version.outputs.dev_version }}
     steps:
@@ -39,20 +42,25 @@ jobs:
       - name: Determine Iteration Value
         id: set-iteration
         # If the action is running on a schedule, default iteration to 0
+        env:
+          ITERATION_INPUT: ${{ github.event.inputs.iteration }}
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            echo "iteration=${{ github.event.inputs.iteration }}" >> $GITHUB_ENV
+            echo "iteration=$ITERATION_INPUT" >> $GITHUB_ENV
           else
             echo "iteration=0" >> $GITHUB_ENV
           fi
       - name: Output dev version
         id: output-dev-version
         # Don't output a dev version if the push was for a tag.
+        env:
+          SUFFIX: ${{ env.suffix }}
+          ITERATION: ${{ env.iteration }}
         run: |
           if [[ "${{ startsWith(github.ref, 'refs/tags') }}" == "true" ]]; then
             echo "dev_version=" >> "$GITHUB_OUTPUT"
           else
-            echo "dev_version=${{ env.suffix }}${{ env.iteration }}" >> "$GITHUB_OUTPUT"
+            echo "dev_version=${SUFFIX}${ITERATION}" >> "$GITHUB_OUTPUT"
           fi
 
   build:
@@ -60,11 +68,15 @@ jobs:
     needs:
     - create-dev-version
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
-    - uses: actions/checkout@v7.0.1
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Set up Python
-      uses: actions/setup-python@v7
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
       with:
         python-version: "3.x"
     - name: Install pypa/build
@@ -73,9 +85,9 @@ jobs:
     - name: Build a binary wheel and a source tarball
       env:
         DEV_VERSION: ${{needs.create-dev-version.outputs.dev_version}}
-      run: ${{ env.DEV_VERSION_ENV_KEY }}="${{ env.DEV_VERSION }}" python3 -m build
+      run: env "${DEV_VERSION_ENV_KEY}=${DEV_VERSION}" python3 -m build
     - name: Store the distribution packages
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       with:
         name: python-package-distributions
         path: dist/
@@ -95,12 +107,12 @@ jobs:
 
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v8
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
       with:
         name: python-package-distributions
         path: dist/
     - name: Publish distribution 📦 to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1.14
+      uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
       with:
         repository-url: https://test.pypi.org/legacy/
         skip-existing: true
